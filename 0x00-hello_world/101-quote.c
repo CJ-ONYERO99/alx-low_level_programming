@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <string.h>
 /**
-* main - program start
+* main - Entry point
 */
 int main(void)
 {
