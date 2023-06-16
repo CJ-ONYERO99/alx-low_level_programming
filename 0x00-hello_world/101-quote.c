@@ -2,7 +2,7 @@
 #include <string.h>
 /**
 * main - Entry point
-* return: Returns 1
+* return: Always 0 (Success)
 */
 int main(void)
 {
