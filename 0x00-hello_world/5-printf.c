@@ -1,7 +1,8 @@
 #include <stdio.h>
 /**
- * a c program to print "with proper grammar, but the outcome is a piece of art"
- * * used the function  printf instead of puts
+ * main - a c program to print "with proper grammar, "
+ * but the outcome is 5a piece of art"
+ * Return: 0 if exited properly, non-zero otherwise
  */
 int main(void)
 {
