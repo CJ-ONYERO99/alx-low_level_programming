@@ -3,10 +3,9 @@
 #include <stdio.h>
 
 /**
-* main - Entry point
+* main - prints value of n satus; zero, positive or negative
 *
-* return: returns 0(success)
-*
+* return: Always 0 (success)
 */
 int main(void)
 {
@@ -14,22 +13,13 @@ int main(void)
 
 	srand(time(0));
 	n = rand() - RAND_MAX / 2;
-	
-
 	printf("The number is %d\n", n);
-
-	if (n > 0) 
-	{
-        	printf("7is positive\n");
-
-	}
-	else if (n == 0) {
-        	printf("is zero\n");
-    	}
-    	else {
-        	printf("is negative\n");
-    	}
-
+	if (n > 0)
+		printf("is positive\n", n);
+	else if (n == 0)
+		printf("is zero\n", n);
+	else
+		printf("is negative\n", n);
 
 	return (0);
 }
