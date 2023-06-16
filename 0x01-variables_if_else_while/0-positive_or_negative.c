@@ -3,9 +3,9 @@
 #include <stdio.h>
 
 /**
-* main - prints value of n satus; zero, positive or negative
+* main - Entry point of the program
 *
-* return: Always 0 (success)
+* Return: Always 0 (success)
 */
 int main(void)
 {
