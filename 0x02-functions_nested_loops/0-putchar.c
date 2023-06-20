@@ -1,13 +1,16 @@
-#include <stdio.h>
+#include <unistd.h>
 /**
 * main - Entry point of the program
 *
-* return - returns 0
+* Return: Always 0(Success)
 */
 int main(void)
 {
-	printf("_putchar\n");
+	char str[] = "_putchar\n";
+	int length = sizeof(str) - 1;
 
-	return 0;
+	write(1, str, length);
+
+	return (0);
 
 }
