@@ -5,7 +5,10 @@
  * @c: The character to be printed
  * Return: returns 0 (success)
  */
-int _putchar(char c);
+int _putchar(char c)
+{
+	return (_putchar(c));
+}
 void print_alphabet(void)
 {
 	char c = 'a';
@@ -26,14 +29,4 @@ int main(void)
 {
 	print_alphabet();
 	return (0);
-}
-/**
- * _putchar - Custom putchar function
- * @c: The character to be printed
- *
- * Return: returns 0 (success)
- */
-int _putchar(char c)
-{
-	return (_putchar(c));
 }
