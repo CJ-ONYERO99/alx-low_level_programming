@@ -7,25 +7,26 @@
  */
 int main(void)
 {
-	unsigned long int current, previous, temp;
-	int count;
+    unsigned long int fib[98];
+    int i;
 
-	current = 1;
-	previous = 0;
+    fib[0] = 1;
+    fib[1] = 2;
 
-	for (count = 1; count <= 98; count++)
-	{
-		printf("%lu", current);
+    for (i = 2; i < 98; i++)
+    {
+        fib[i] = fib[i - 1] + fib[i - 2];
+    }
 
-		if (count != 98)
-			printf(", ");
+    for (i = 0; i < 98; i++)
+    {
+        printf("%lu", fib[i]);
 
-		temp = current;
-		current += previous;
-		previous = temp;
-	}
+        if (i != 97)
+            printf(", ");
+    }
 
-	printf("\n");
+    printf("\n");
 
-	return 0;
+    return(0);
 }
