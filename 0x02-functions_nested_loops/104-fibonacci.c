@@ -3,28 +3,29 @@
 /**
  * main - Entry point of the program
  *
- * Return: 0 on success
+ * Return: Always 0
  */
 int main(void)
 {
-	unsigned long int prev = 1, curr = 2, next;
-	unsigned int count;
+	unsigned long int fib1 = 1;
+	unsigned long int fib2 = 2; 
+	unsigned long int fib_next;
+	int count;
 
-	printf("%lu, %lu, ", prev, curr);
+	printf("%lu, %lu, ", fib1, fib2);
 
-	for (count = 3; count <= 98; count++)
+	for (count = 3; count <= 98; ++count)
 	{
-		next = prev + curr;
-		printf("%lu", next);
+		fib_next = fib1 + fib2;
+		printf("%lu", fib_next);
 
-		if (count < 98)
+		if (count != 98)
 			printf(", ");
 
-		prev = curr;
-		curr = next;
+		fib1 = fib2;
+		fib2 = fib_next;
 	}
 
 	printf("\n");
-
 	return (0);
 }
