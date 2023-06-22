@@ -11,7 +11,7 @@ int main(void)
 
 	while (fib1 <= 4000000)
 	{
-	if (fib1 % 2 == 0)
+		if (fib1 % 2 == 0)
 		even_sum += fib1;
 
 		fib_sum = fib1 + fib2;
