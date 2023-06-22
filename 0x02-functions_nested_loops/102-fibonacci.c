@@ -25,5 +25,5 @@ int main(void)
 		curr = next;
 	}
 
-	return 0;
+	return (0);
 }
