@@ -1,16 +1,20 @@
 #include <unistd.h>
+
 /**
-* main - Entry point of the program
-*
-* Return: Always 0(Success)
-*/
+ * main - Entry point of the program
+ *
+ * Return: Always 0 (Success)
+ */
 int main(void)
 {
 	char str[] = "_putchar\n";
-	int length = sizeof(str) - 1;
+	int i = 0;
 
-	write(1, str, length);
+	while (str[i] != '\0')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
 
 	return (0);
-
 }
