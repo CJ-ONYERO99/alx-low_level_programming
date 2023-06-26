@@ -23,9 +23,9 @@ int _atoi(char *s)
 	}
 
 	/* Convert the digits to integer */
-	while (s[i] >= '0' && s[i] <= '9')
+	while (*(s + i) >= '0' && *(s + i) <= '9')
 	{
-		int digit = s[i] - '0';
+		int digit = *(s + i) - '0';
 
 		if (sign == 1 && (result > INT_MAX / 10 ||
 					(result == INT_MAX / 10 && digit > INT_MAX % 10)))
