@@ -13,28 +13,32 @@ int _atoi(char *s)
 	int result = 0;
 	int i = 0;
 
-	while (s[i] != '\0')
+	/* Find the sign */
+	while (s[i] == '-' || s[i] == '+')
 	{
 		if (s[i] == '-')
 			sign *= -1;
-		else if (s[i] >= '0' && s[i] <= '9')
-		{
-			int digit = s[i] - '0';
 
-			if (sign == 1 && (result > INT_MAX / 10 ||
-						(result == INT_MAX / 10 && digit > INT_MAX % 10)))
-				return (INT_MAX);
-			else if (sign == -1 && (result > INT_MAX / 10 ||
+		i++;
+	}
+
+	/* Convert the digits to integer */
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		int digit = s[i] - '0';
+
+		if (sign == 1 && (result > INT_MAX / 10 ||
+					(result == INT_MAX / 10 && digit > INT_MAX % 10)))
+		{
+			return (INT_MAX);
+		}
+		else if (sign == -1 && (result > INT_MAX / 10 ||
 						(result == INT_MAX / 10 && digit > -(INT_MIN % 10))))
-				return (INT_MIN);
-
-			result = (result * 10) + digit;
-		}
-		else
 		{
-			break;
+			return (INT_MIN);
 		}
 
+		result = (result * 10) + digit;
 		i++;
 	}
 
