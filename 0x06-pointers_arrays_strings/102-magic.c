@@ -1,5 +1,14 @@
 #include <stdio.h>
 
+/**
+ * main - Entry point of the program
+ *
+ * Description: This function serves as the entry point of the program.
+ *              It initializes variables, performs a specific operation,
+ *              and prints the result.
+ *
+ * Return: 0 (Success)
+ */
 int main(void)
 {
 	int n;
