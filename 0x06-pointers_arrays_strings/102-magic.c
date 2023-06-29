@@ -3,9 +3,9 @@
 /**
  * main - Entry point of the program
  *
- * Description: This function serves as the entry point of the program.
- *              It initializes variables, performs a specific operation,
- *              and prints the result.
+ * Description: The function is an entry point of the program.
+ * It initializes variables, performs a specific operation,
+ * and prints the result.
  *
  * Return: 0 (Success)
  */
