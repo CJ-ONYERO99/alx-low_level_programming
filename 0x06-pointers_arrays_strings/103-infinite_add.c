@@ -1,53 +1,95 @@
-#include <stdio.h>
+#include "main.h"
 
 /**
- * infinite_add - Adds two numbers
+ * rev_string - Reverse a string
+ * @str: String to reverse
+ */
+void rev_string(char *str)
+{
+	int len = 0, i = 0;
+	char temp;
+
+	while (str[len] != '\0')
+		len++;
+
+	len--;
+
+	for (i = 0; i < len; i++, len--)
+	{
+		temp = str[i];
+		str[i] = str[len];
+		str[len] = temp;
+	}
+}
+
+/**
+ * add_digit - Add two digits with overflow
+ * @d1: First digit
+ * @d2: Second digit
+ * @overflow: Pointer to overflow value
+ * Return: Resulting digit
+ */
+int add_digit(int d1, int d2, int *overflow)
+{
+	int sum = d1 + d2 + *overflow;
+
+	if (sum >= 10)
+	{
+		*overflow = 1;
+		return (sum - 10);
+	}
+
+	*overflow = 0;
+	return (sum);
+}
+
+/**
+ * infinite_add - Add two numbers represented as strings
  * @n1: First number
  * @n2: Second number
  * @r: Buffer to store the result
  * @size_r: Size of the buffer
- *
  * Return: Pointer to the result
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int i, j, k, len1, len2, sum, carry;
+	int overflow = 0;
+	int i = 0, j = 0, digits = 0;
+	int val1 = 0, val2 = 0, temp_sum = 0;
 
-	len1 = len2 = sum = carry = 0;
+	while (n1[i] != '\0')
+		i++;
 
-	/* Calculate the lengths of n1 and n2 */
-	while (n1[len1] != '\0')
-		len1++;
-	while (n2[len2] != '\0')
-		len2++;
+	while (n2[j] != '\0')
+		j++;
 
-	if (size_r <= len1 || size_r <= len2)
+	i--;
+	j--;
+
+	if (j >= size_r || i >= size_r)
 		return (0);
 
-	i = len1 - 1;
-	j = len2 - 1;
-	k = size_r - 1;
-
-	while (i >= 0 || j >= 0 || carry != 0)
+	while (j >= 0 || i >= 0 || overflow == 1)
 	{
-		sum = carry;
+		val1 = (i >= 0) ? (n1[i] - '0') : 0;
+		val2 = (j >= 0) ? (n2[j] - '0') : 0;
 
-		if (i >= 0)
-			sum += n1[i] - '0';
+		temp_sum = add_digit(val1, val2, &overflow);
 
-		if (j >= 0)
-			sum += n2[j] - '0';
+		if (digits >= (size_r - 1))
+			return (0);
 
-		carry = sum / 10;
-		r[k] = (sum % 10) + '0';
-
-		i--;
+		r[digits] = temp_sum + '0';
+		digits++;
 		j--;
-		k--;
+		i--;
 	}
 
-	if (k < 0)
+	if (digits == size_r)
 		return (0);
 
-	return (r + k + 1);
+	r[digits] = '\0';
+	rev_string(r);
+
+	return (r);
 }
