@@ -1,47 +1,66 @@
-/**
- * check_palindrome - Helper function to recursively check
- * if a string is a palindrome.
- * @s: The string to check.
- * @start: The starting index.
- * @end: The ending index.
- *
- * Return: 1 if the string is a palindrome, 0 otherwise.
- */
-int check_palindrome(char *s, int start, int end);
+#include "main.h"
 
 /**
- * is_palindrome - Checks if a string is a palindrome.
- * @s: The string to check.
+ * check_pal - checks the characters recursively for palindrome
+ * @s: string to check
+ * @i: starting index
+ * @len: length of the string
  *
- * Return: 1 if the string is a palindrome, 0 otherwise.
+ * Return: 1 if palindrome, 0 if not
+ */
+int check_pal(char *s, int i, int len);
+
+/**
+ * _strlen_recursion - returns the length of a string
+ * @s: string to calculate the length of
+ *
+ * Return: length of the string
+ */
+int _strlen_recursion(char *s);
+
+/**
+ * is_palindrome - checks if a string is a palindrome
+ * @s: string to check
+ *
+ * Return: 1 if it is a palindrome, 0 if not
  */
 int is_palindrome(char *s)
 {
-	int len = 0;
+	if (*s == '\0')
+		return (1);
 
-	while (*(s + len))
-		len++;
-
-	return (check_palindrome(s, 0, len - 1));
+	return (check_pal(s, 0, _strlen_recursion(s) - 1));
 }
 
 /**
- * check_palindrome - Helper function to recursively check
- * if a string is a palindrome.
- * @s: The string to check.
- * @start: The starting index.
- * @end: The ending index.
+ * _strlen_recursion - returns the length of a string
+ * @s: string to calculate the length of
  *
- * Return: 1 if the string is a palindrome, 0 otherwise.
+ * Return: length of the string
  */
-int check_palindrome(char *s, int start, int end)
+int _strlen_recursion(char *s)
 {
-	if (start >= end)
-		return (1);
-
-	if (*(s + start) != *(s + end))
+	if (*s == '\0')
 		return (0);
 
-	return (check_palindrome(s, start + 1, end - 1));
+	return (1 + _strlen_recursion(s + 1));
 }
 
+/**
+ * check_pal - checks the characters recursively for palindrome
+ * @s: string to check
+ * @i: starting index
+ * @len: length of the string
+ *
+ * Return: 1 if palindrome, 0 if not
+ */
+int check_pal(char *s, int i, int len)
+{
+	if (i >= len)
+		return (1);
+
+	if (*(s + i) != *(s + len))
+		return (0);
+
+	return (check_pal(s, i + 1, len - 1));
+}
