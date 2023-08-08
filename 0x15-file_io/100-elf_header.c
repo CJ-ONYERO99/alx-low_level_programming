@@ -1,86 +1,118 @@
+#include <elf.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <elf.h>
-#include <unistd.h>
-#include "main.h"
 
 /**
- * display_elf_header - Displays the information contained in the ELF header.
- * @header: Pointer to the ELF header structure.
- */
-void display_elf_header(Elf64_Ehdr *header);
-
-/**
- * main - Displays the information contained in the ELF header of an ELF file.
- * @argc: The argument count.
- * @argv: An array of pointers to the arguments.
+ * check_elf - Checks if a file is an ELF file.
+ * @e_ident: A pointer to an array containing the ELF magic numbers.
  *
- * Return: 0 on success, 98 on error.
+ * Description: If the file is not an ELF file, exit code 98.
  */
-int main(int argc, char *argv[])
+void check_elf(unsigned char *e_ident)
 {
-	int fd;
-	Elf64_Ehdr header;
+	int index;
 
-	if (argc != 2)
+	for (index = 0; index < 4; index++)
 	{
-		dprintf(STDERR_FILENO, "Usage: %s elf_filename\n", argv[0]);
-		exit(98);
+		if (e_ident[index] != 127 &&
+		    e_ident[index] != 'E' &&
+		    e_ident[index] != 'L' &&
+		    e_ident[index] != 'F')
+		{
+			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
+			exit(98);
+		}
 	}
-
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Cannot open file '%s'\n", argv[1]);
-		exit(98);
-	}
-
-	if (read(fd, &header, sizeof(header)) != sizeof(header))
-	{
-		dprintf(STDERR_FILENO, "Error: Cannot read ELF header\n");
-		close(fd);
-		exit(98);
-	}
-
-	if (header.e_ident[EI_MAG0] != ELFMAG0 ||
-	    header.e_ident[EI_MAG1] != ELFMAG1 ||
-	    header.e_ident[EI_MAG2] != ELFMAG2 ||
-	    header.e_ident[EI_MAG3] != ELFMAG3)
-	{
-		dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
-		close(fd);
-		exit(98);
-	}
-
-	display_elf_header(&header);
-	close(fd);
-
-	return (0);
 }
 
 /**
- * display_elf_header - Displays the information contained in the ELF header.
- * @header: Pointer to the ELF header structure.
+ * print_magic - Prints the magic numbers of an ELF header.
+ * @e_ident: A pointer to an array containing the ELF magic numbers.
+ *
+ * Description: Magic numbers are separated by spaces.
  */
-void display_elf_header(Elf64_Ehdr *header)
+void print_magic(unsigned char *e_ident)
 {
-	int i;
+	int index;
+
+	printf("Magic: ");
+
+	for (index = 0; index < EI_NIDENT; index++)
+	{
+		printf("%02x", e_ident[index]);
+
+		if (index == EI_NIDENT - 1)
+			printf("\n");
+		else
+			printf(" ");
+	}
+}
+
+/**
+ * process_elf_file - Processes an ELF file.
+ * @filename: The name of the ELF file.
+ *
+ * Description: Opens and reads the ELF file,then checks & prints header info.
+ */
+void process_elf_file(const char *filename)
+{
+	Elf64_Ehdr *header;
+	int o, r;
+
+	o = open(filename, O_RDONLY);
+	if (o == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", filename);
+		exit(98);
+	}
+
+	header = malloc(sizeof(Elf64_Ehdr));
+	if (header == NULL)
+	{
+		close(o);
+		dprintf(STDERR_FILENO, "Error: Can't allocate memory\n");
+		exit(98);
+	}
+
+	r = read(o, header, sizeof(Elf64_Ehdr));
+	if (r == -1)
+	{
+		free(header);
+		close(o);
+		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", filename);
+		exit(98);
+	}
+
+	check_elf(header->e_ident);
 
 	printf("ELF Header:\n");
+	print_magic(header->e_ident);
+	/* Call other print functions here */
 
-	printf("  Magic:   ");
-	for (i = 0; i < EI_NIDENT; i++)
+	free(header);
+	close(o);
+}
+
+/**
+ * main - Entry point for the program.
+ * @argc: The number of command-line arguments.
+ * @argv: An array containing the command-line arguments.
+ *
+ * Return: 0 on success, otherwise exit code.
+ */
+int main(int argc, char *argv[])
+{
+	if (argc != 2)
 	{
-		printf("%02x ", header->e_ident[i]);
-	}
-	printf("\n");
-
-	printf("  Class:                             ");
-	switch (header->e_ident[EI_CLASS])
-	{
-
+		dprintf(STDERR_FILENO, "Usage: %s <file>\n", argv[0]);
+		return (EXIT_FAILURE);
 	}
 
-	printf("  Entry point address:               0x%lx\n", header->e_entry);
+	process_elf_file(argv[1]);
+
+	return (EXIT_SUCCESS);
 }
