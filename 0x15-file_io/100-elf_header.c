@@ -10,7 +10,7 @@
  * check_elf - Checks if a file is an ELF file.
  * @e_ident: A pointer to an array containing the ELF magic numbers.
  *
- * Description: If the file is not an ELF file, exit code 98.
+ * Description: If the file is not an ELF file - exit code 98.
  */
 void check_elf(unsigned char *e_ident)
 {
@@ -52,38 +52,37 @@ void print_magic(unsigned char *e_ident)
 	}
 }
 
-/**
- * process_elf_file - Processes an ELF file.
- * @filename: The name of the ELF file.
- *
- * Description: Opens and reads the ELF file,then checks & prints header info.
- */
-void process_elf_file(const char *filename)
+/* ... (rest of the code) ... */
+
+int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	Elf64_Ehdr *header;
 	int o, r;
 
-	o = open(filename, O_RDONLY);
+	o = open(argv[1], O_RDONLY);
+
 	if (o == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", filename);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
 
 	header = malloc(sizeof(Elf64_Ehdr));
+
 	if (header == NULL)
 	{
-		close(o);
-		dprintf(STDERR_FILENO, "Error: Can't allocate memory\n");
+		close_elf(o);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
 
 	r = read(o, header, sizeof(Elf64_Ehdr));
+
 	if (r == -1)
 	{
 		free(header);
-		close(o);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", filename);
+		close_elf(o);
+		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
 		exit(98);
 	}
 
@@ -91,28 +90,15 @@ void process_elf_file(const char *filename)
 
 	printf("ELF Header:\n");
 	print_magic(header->e_ident);
-	/* Call other print functions here */
+	print_class(header->e_ident);
+	print_data(header->e_ident);
+	print_version(header->e_ident);
+	print_osabi(header->e_ident);
+	print_abi(header->e_ident);
+	print_type(header->e_type, header->e_ident);
+	print_entry(header->e_entry, header->e_ident);
 
 	free(header);
-	close(o);
-}
-
-/**
- * main - Entry point for the program.
- * @argc: The number of command-line arguments.
- * @argv: An array containing the command-line arguments.
- *
- * Return: 0 on success, otherwise exit code.
- */
-int main(int argc, char *argv[])
-{
-	if (argc != 2)
-	{
-		dprintf(STDERR_FILENO, "Usage: %s <file>\n", argv[0]);
-		return (EXIT_FAILURE);
-	}
-
-	process_elf_file(argv[1]);
-
-	return (EXIT_SUCCESS);
+	close_elf(o);
+	return (0);
 }
