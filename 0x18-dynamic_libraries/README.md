@@ -1,48 +1,97 @@
-0x18. C - Dynamic libraries
-C
- By: Julien Barbier
- Weight: 1
- Project will start Oct 16, 2023 6:00 AM, must end by Oct 17, 2023 6:00 AM
- Checker was released at Oct 16, 2023 12:00 PM
- An auto review will be launched at the deadline
-Resources
-Read or watch:
+# C - Doubly linked lists
 
-What is difference between Dynamic and Static library (Static and Dynamic linking)
-create dynamic libraries on Linux
-Learning Objectives
-At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
+Implementation of C doubly linked lists
 
-General
-What is a dynamic library, how does it work, how to create one, and how to use it
-What is the environment variable $LD_LIBRARY_PATH and how to use it
-What are the differences between static and shared libraries
-Basic usage nm, ldd, ldconfig
-Copyright - Plagiarism
-You are tasked to come up with solutions for the tasks below yourself to meet with the above learning objectives.
-You will not be able to meet the objectives of this or any following project by copying and pasting someone else’s work.
-You are not allowed to publish any content of this project.
-Any form of plagiarism is strictly forbidden and will result in removal from the program.
-Requirements
-C
-Allowed editors: vi, vim, emacs
-All your files will be compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
-All your files should end with a new line
-A README.md file, at the root of the folder of the project is mandatory
-Your code should use the Betty style. It will be checked using betty-style.pl and betty-doc.pl
-You are not allowed to use global variables
-No more than 5 functions per file
-You are not allowed to use the standard library. Any use of functions like printf, puts, etc… is forbidden
-You are allowed to use _putchar
-You don’t have to push _putchar.c, we will use our file. If you do it won’t be taken into account
-In the following examples, the main.c files are shown as examples. You can use them to test your functions, but you don’t have to push them to your repo (if you do we won’t take them into account). We will use our own main.c files at compilation. Our main.c files might be different from the one shown in the examples
-The prototypes of all your functions and the prototype of the function _putchar should be included in your header file called main.h
-Don’t forget to push your header file
-Bash
-Allowed editors: vi, vim, emacs
-All your scripts will be tested on Ubuntu 20.04 LTS
-All your files should end with a new line (why?)
-The first line of all your files should be exactly #!/bin/bash
-A README.md file, at the root of the folder of the project, describing what each script is doing
-All your files must be executable
-Tasks
+## Tests :heavy_check_mark:
+
+* [tests](./tests): Folder of test files. 
+
+## Header File :file_folder:
+
+* [lists.h](./lists.h): Header file containing definitions and prototypes for all types
+and functions written for the project.
+
+| Type/File           | Definition/Prototype           |
+| ------------------- | ------------------------------ |
+| `struct dlistint_s`    | <ul><li>`int n`</li><li>`struct dlistint_s *prev`</li><li>`struct dlistint_s *new`</li></ul> |
+| `typedef dlistint_t`   | `struct dlistint_s`                                                                          |
+| `0-print_dlistint.c`   | `size_t print_dlistint(const dlistint_t *h);`                                                |
+| `1-dlistint_len.c`     | `size_t dlistint_len(const dlistint_t *h);`                                                  |
+| `2-add_dnodeint.c`  | `dlistint_t *add_dnodeint(dlistint_t **head, const int n);`                                     |
+| `3-add_dnodeint_end.c` | `dlistint_t *add_dnodeint_end(dlistint_t **head, const int n);`                              |
+| `4-free_dlistint.c`    | `void free_dlistint(dlistint_t *head);`                                                      |
+| `5-get_dnodeint.c`     | `dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index);`                   |
+| `6-sum_dlistint.c`     | `int sum_dlistint(dlistint_t *head);`                                                        |
+| `7-insert_dnodeint.c`  | `dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n);`             |
+| `8-delete_dnodeint.c`  | `int delete_dnodeint_at_index(dlistint_t **head, unsigned int index);`                       |
+
+## Tasks :page_with_curl:
+
+* **0. Print list**
+  * [0-print_dlistint.c](./0-print_dlinstint.c): C function that prints all the elements
+  of a doubly-linked `dlistint_t` list.
+  * Returns the number of nodes in the list.
+
+* **1. List length**
+  * [1-dlistint_len.c](./1-dlistint_len.c): C function that returns the number of nodes in
+  a doubly-linked `dlistint_t` list.
+
+* **2. Add node**
+  * [2-add_dnodeint.c](./2-add_dnodeint.c): C function that adds a new node at the
+  beginning of a doubly-linked `dlistint_t` list.
+  * If the function fails - returns `NULL`.
+  * Otherwise - returns the address of the new element.
+
+* **3. Add node at the end**
+  * [3-add_dnodeint_end.c](./3-add_dnodeint_end.c): C function that adds a new
+  node at the end of a doubly-linked `dlistint_t` list.
+  * If the function fails - returns `NULL`.
+  * Otherwise - returns the address of the new element.
+
+* **4. Free list**
+  * [4-free_dlistint.c](./4-free_dlistint.c): C function that frees a
+  doubly-linked `dlistint_t` list.
+
+* **5. Get node at index**
+  * [5-get_dnodeint.c](./5-get_dnodeint.c): C function that locates a given node of a
+  doubly-linked `dlistint_t` list.
+  * The parameter `index` is the index of the node to locate - indices start at `0`.
+  * If the node does not exist - returns `NULL`.
+  * Otherwise - returns the address of the located node.
+
+* **6. Sum list**
+  * [6-sum_dlistint.c](./6-sum_dlistint.c): C function that sums all the data (`n`)
+  of a doubly-linked `dlistint_t` list.
+  * If the list is empty - returns `0`.
+  * Otherwise - returns the sum of all the data (`n`).
+
+* **7. Insert at index**
+  * [7-insert_dnodeint.c](./7-insert_dnodeint.c): C function that inserts a new node at a
+  given position.
+  * The parameter `idx` is the index of the list where the new node should
+  be added - indices start at `0`.
+  * If the function fails - returns `NULL`.
+  * Otherwise - returns the address of the new element.
+  * Requires compilation with functions defined in [2-add_dnodeint.c](./2-add_dnodeint.c)
+  and [3-add_dnodeint_end.c](./3-add_dnodeint_end.c).
+
+* **8. Delete at index**
+  * [8-delete_dnodeint.c](./8-delete_dnodeint.c): C function that deletes the node at
+  index `index` of a doubly-linked `dlistint_t` list.
+  * The paramter `index` is the index of the node to delete - indices start at `0`.
+  * If the function fails - returns `-1`.
+  * Otherwise - returns `1`.
+
+* **9. Crackme4**
+  * [100-password](./100-password): Text file containing the password for the
+  [crackme4](https://github.com/holbertonschool/0x16.c) executable.
+
+* **10. Palindromes**
+  * [102-result](./102-result): Text file containing the largest palindrome made from a
+  product of two three-digit numbers.
+
+* **11. Crackme5**
+  * [103-keygen.c](./103-keygen.c): C function that generates passwords for the
+  [crackme5](https://github.com/holbertonschool/0x16.c) executable.
+  * Usage of the crackme: `./crackme5 username key`
+  * Usage of the keygen: `./keygen5 username`
