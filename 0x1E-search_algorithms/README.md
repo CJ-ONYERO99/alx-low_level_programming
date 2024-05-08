@@ -1,7 +1,5 @@
 0x1E. C - Search Algorithms
 ===========================
-
--   By Wilfried Hennuyer
 -   Weight: 1
 
 Resources
